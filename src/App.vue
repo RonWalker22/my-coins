@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <my-portfolio msg="My Crypto Portfolio" email="rondwalker22@yahoo.com" 
+    auth="{{location.href.split('#')[1]).split('&')[1].split('=')[1]}}}"
+    jwt="love"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MyPortfolio from './components/Portfolio.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MyPortfolio
   }
 }
 </script>
