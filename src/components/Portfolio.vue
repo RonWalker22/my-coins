@@ -61,6 +61,7 @@ export default {
               name: null,
               amount: null,
           },
+          portfolio: 0,
           userEmail: "",
           url: `https://t3d210uhn7.execute-api.us-east-2.amazonaws.com/test/portfolio?emailId=${this.email}`
       }
@@ -83,6 +84,7 @@ export default {
              return this.createUser();
             }
             this.coins = response.data.coins
+            this.portfolio();
             this.state = "ready"
         }
         )
@@ -123,6 +125,8 @@ export default {
             }
         })
     },
+
+
     updateCoin() {
         this.state = "loading";
         if (this.newCoin.name === null || this.newCoin.amount === null) {
@@ -143,6 +147,20 @@ export default {
                 this.state = "ready";
             }
         })
+   },
+
+    portfolio() {
+        var networth = 0; 
+        this.state = "loading";
+        if (this.coins.length === 0) {
+            console.log("empty portfolio");
+            return;
+        }
+        for(let i = 0;i<this.coins.length;i++) {
+            networth += this.coins[i].value.toFixed(2);
+        }
+        this.portfolio = networth;
+        return networth;
    },
   }
 }
