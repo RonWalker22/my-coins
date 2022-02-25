@@ -166,7 +166,7 @@ export default {
         ).then((res) => {
             try {
                 for (let i =0;i<res.data.body.items.length();i++){
-                    var item = String(res.data.body.items[i].id).toLowerCase;S
+                    var item = String(res.data.body.items[i].id).toLowerCase;
                     this.ourCoinList.push(item);
                 }
                 
