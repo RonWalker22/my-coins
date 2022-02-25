@@ -140,7 +140,7 @@ export default {
             if(newCoinLowerCase === this.ourCoinList[i]) {
                 console.log("newCoin not present");
                 return;
-            };
+            }
         }
         //
         let extraParams = `&coinId=${this.newCoin.name}&amount=${this.newCoin.amount}`
