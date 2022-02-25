@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="email !== undefined">
     <h1>{{ msg }}</h1>
     <body>
         <a href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080">Login</a>
@@ -34,6 +34,9 @@
             </div>
         </div>
     </body>
+  </div>
+  <div v-else>
+              <a href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080">Login</a>
   </div>
 </template>
 
@@ -81,6 +84,9 @@ export default {
         )
     },
     getEmail() {
+        if (location.href.split('#').length === 1) {
+            return null;
+        } 
         var idTokenWithEquals = (location.href.split('#')[1]).split('&')[0];
         var COGNITO_ID_TOKEN = idTokenWithEquals.split('=')[1];
         COGNITO_ID_TOKEN = this.parseJwt(COGNITO_ID_TOKEN);

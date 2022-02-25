@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <my-portfolio msg="My Crypto Portfolio"
-    :auth="window"
-    :email="getEmail()"
+    :auth=" window"
+    :email="getEmail() === null ? window : null"
     />
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
   },
     methods: {
     getEmail() {
+        if (location.href.split('#').length === 1) {
+            return null;
+        } 
         var idTokenWithEquals = (location.href.split('#')[1]).split('&')[0];
         var COGNITO_ID_TOKEN = idTokenWithEquals.split('=')[1];
         COGNITO_ID_TOKEN = this.parseJwt(COGNITO_ID_TOKEN);
