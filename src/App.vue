@@ -2,7 +2,7 @@
   <div id="app">
     <my-portfolio msg="My Crypto Portfolio"
     :auth=" window"
-    :email="getEmail() === null ? window : null"
+    :email="getEmail()"
     />
   </div>
 </template>

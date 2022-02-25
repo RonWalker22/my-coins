@@ -1,42 +1,43 @@
 <template>
-  <div v-if="email !== undefined">
+  <div>
     <h1>{{ msg }}</h1>
     <body>
-        <a href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080">Login</a>
-        <div>
-            <div></div>
-            <input v-model="newCoin.name" placeholder="coin name">
-            <input v-model="newCoin.amount" type="text" placeholder="amount">
-            <input @click="updateCoin" type="button" value="Update Portfolio">
-        </div>
+        <a v-if="email === undefined || email === null" 
+        href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080">Login</a>
+        
+        <div v-else>
+            <div>
+                <div></div>
+                <input v-model="newCoin.name" placeholder="coin name">
+                <input v-model="newCoin.amount" type="text" placeholder="amount">
+                <input @click="updateCoin" type="button" value="Update Portfolio">
+            </div>
 
-        <div class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Coin</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody v-if="state === 'ready'">
-                    <tr v-for="(coin, i) in coins" :key="coin.name">
-                        <td>{{i}}</td>
-                        <td>{{coin.amount}}</td>
-                        <td>${{coin.price.toFixed(2)}}</td>
-                        <td>${{coin.value.toFixed(2)}}</td>
-                    </tr>
-                </tbody>
-            </table>  
-            <div v-if="state === 'loading'">
-                   <p>loading data...</p>
+            <div class="container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Coin</th>
+                            <th>Amount</th>
+                            <th>Price</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="state === 'ready'">
+                        <tr v-for="(coin, i) in coins" :key="coin.name">
+                            <td>{{i}}</td>
+                            <td>{{coin.amount}}</td>
+                            <td>${{coin.price.toFixed(2)}}</td>
+                            <td>${{coin.value.toFixed(2)}}</td>
+                        </tr>
+                    </tbody>
+                </table>  
+                <div v-if="state === 'loading'">
+                    <p>loading data...</p>
+                </div>
             </div>
         </div>
     </body>
-  </div>
-  <div v-else>
-              <a href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=https://main.d1cm820nfbsmxw.amplifyapp.com/">Login</a>
   </div>
 </template>
 
