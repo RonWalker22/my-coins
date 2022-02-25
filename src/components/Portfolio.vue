@@ -135,7 +135,7 @@ export default {
             try {
                 this.info = res.data;
                 if (res.data.errorMessage === "java.lang.NullPointerException") {
-                    return this.createUser;
+                    return this.createUser();
                 }
                 this.getCoin();
             } catch (error) { 
