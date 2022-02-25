@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <my-portfolio msg="My Crypto Portfolio"
-    :auth=" window"
+    :auth="auth"
     :email="getEmail()"
     />
   </div>
@@ -15,12 +15,15 @@ export default {
   components: {
     MyPortfolio
   },
-  data() {
-      return {
-          window: (window.location.href.split('#')[1]).split('&')[1].split('=')[1]
+  computed: {
+      auth: function() {
+          if (location.href.split('#').length === 1) {
+              return null;
+          } 
+          return (window.location.href.split('#')[1]).split('&')[1].split('=')[1]
       }
   },
-    methods: {
+  methods: {
     getEmail() {
         if (location.href.split('#').length === 1) {
             return null;
