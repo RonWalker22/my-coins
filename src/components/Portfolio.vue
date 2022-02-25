@@ -104,7 +104,22 @@ export default {
 
         return JSON.parse(jsonPayload);
     },
-
+    createUser() {
+        this.state = "loading";
+        axios.post(this.url, {}, {
+        headers: {
+            'Authorization': this.auth,
+        }
+        }).then((res) => {
+            try {
+                this.info = res.data;
+                this.getCoin();
+            } catch (error) { 
+                alert("API offline: UPDATE");
+                this.state = "ready";
+            }
+        })
+    },
     updateCoin() {
         this.state = "loading";
         if (this.newCoin.name === null || this.newCoin.amount === null) {
@@ -118,18 +133,15 @@ export default {
         }
         }).then((res) => {
             try {
-                // this.state = "ready";
-                // alert("API offline: UPDATE");
-                // this.
                 this.info = res.data;
+                if (res.data.errorMessage === "java.lang.NullPointerException") {
+                    return this.createUser;
+                }
                 this.getCoin();
-                // this.coins = res.data.coins;
             } catch (error) { 
-                // throw error;
                 alert("API offline: UPDATE");
                 this.state = "ready";
             }
-            
         })
    },
   }
