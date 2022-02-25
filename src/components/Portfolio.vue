@@ -72,6 +72,9 @@ export default {
   },
   methods: {
     getCoin() {
+      if (location.href.split('#').length === 1) {
+        return null;
+      } 
       this.state = "loading"
       axios
         .get(this.url,
