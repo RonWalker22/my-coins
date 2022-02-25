@@ -57,7 +57,7 @@ export default {
       return {
           coins: [],
           //Changes Here
-          ourCoinList: [],
+          ourCoinList: new Map(),
           state: "ready",
           newCoin: {
               name: null,
@@ -77,8 +77,8 @@ export default {
   methods: {
     getCoin() {
       if (location.href.split('#').length === 1) {
-        return null;
-      } 
+          return null;
+      }
       this.state = "loading"
       axios
         .get(this.url,
@@ -131,21 +131,18 @@ export default {
         })
     },
     updateCoin() {
-        this.state = "loading";
         if (this.newCoin.name === null || this.newCoin.amount === null) {
             console.log("empty updatecoin");
             return;
         }
 
-        //New Code
-        var newCoinLowerCase = String(this.newCoin.name).toLowerCase;
-        for(let i =0; i<this.ourCoinList.length; i++){
-            if(newCoinLowerCase === this.ourCoinList[i]) {
-                console.log("newCoin not present");
-                return;
-            }
+        if (!this.ourCoinList.get(this.newCoin.name)) {
+            console.log("newCoin not present");
+            return;
         }
+
         //
+        this.state = "loading";
         let extraParams = `&coinId=${this.newCoin.name}&amount=${this.newCoin.amount}`
         axios.put(this.url + extraParams, {}, {
         headers: {
@@ -163,14 +160,17 @@ export default {
    },
     //New Code
     getOurCoinList() {
+        if (location.href.split('#').length === 1) {
+            return null;
+        } 
         this.state = "loading";
-        //var newCoinLowerCase = String(this.newCoin.name).toLowerCase;
+
         axios.get('https://t3d210uhn7.execute-api.us-east-2.amazonaws.com/test/graball', {}
         ).then((res) => {
             try {
-                for (let i =0;i<res.data.body.items.length();i++){
-                    var item = String(res.data.body.items[i].id).toLowerCase;
-                    this.ourCoinList.push(item);
+                for (let i =0;i<res.data.body.Items.length;i++){
+                    var item = res.data.body.Items[i].id;
+                    this.ourCoinList.set(item, true)
                 }
                 
             } catch (error) { 
