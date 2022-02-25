@@ -79,6 +79,9 @@ export default {
             "Authorization": this.auth
         }})
         .then(response => {
+           if (response.data.errorMessage === "java.lang.NullPointerException") {
+             return this.createUser();
+            }
             this.coins = response.data.coins
             this.state = "ready"
         }
@@ -134,9 +137,6 @@ export default {
         }).then((res) => {
             try {
                 this.info = res.data;
-                if (res.data.errorMessage === "java.lang.NullPointerException") {
-                    return this.createUser();
-                }
                 this.getCoin();
             } catch (error) { 
                 alert("API offline: UPDATE");
