@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <body>
         <a v-if="email === undefined || email === null" 
-        href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080">Login</a>
+        href="https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=https://main.d1cm820nfbsmxw.amplifyapp.com/">Login</a>
         
         <div v-else>
             <div>
