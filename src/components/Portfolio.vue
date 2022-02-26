@@ -7,7 +7,7 @@
         
         <div v-else>
             <div>
-                <h2>Total Portfolio Value: {{portfolio || 0}} </h2>
+                <h2>Total Portfolio Value: ${{portfolio || 0}} </h2>
             </div>
 
             <div>
