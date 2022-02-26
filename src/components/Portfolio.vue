@@ -13,6 +13,10 @@
                 <input @click="updateCoin" type="button" value="Update Portfolio">
             </div>
 
+            <div>
+                <h2>Total Portfolio Value: {{portfolio || 0}} </h2>
+            </div>
+
             <div class="container">
                 <table>
                     <thead>
@@ -24,8 +28,8 @@
                         </tr>
                     </thead>
                     <tbody v-if="state === 'ready'">
-                        <tr v-for="(coin, i) in coins" :key="coin.name">
-                            <td>{{i}}</td>
+                        <tr v-for="(coin, value) in coins" :key="coin.name">
+                            <td>{{value}}</td>
                             <td>{{coin.amount}}</td>
                             <td>${{coin.price.toFixed(2)}}</td>
                             <td>${{coin.value.toFixed(2)}}</td>
@@ -42,7 +46,7 @@
 </template>
 
 <script>
-// https://my-coins.auth.us-east-2.amazoncognito.com/login?client_id=n2l1crskuigpqp3lrbsj8r7nj&response_type=token&scope=email+openid&redirect_uri=http://localhost:8080/
+
 import axios from 'axios';
 
 export default {
@@ -55,7 +59,7 @@ export default {
 
   data: function() {
       return {
-          coins: [],
+          coins: {},
           //Changes Here
           ourCoinList: new Map(),
           state: "ready",
@@ -73,6 +77,25 @@ export default {
       this.getCoin();
       //Changes Here
       this.getOurCoinList();
+  },
+  computed: {
+      portfolio: function() {
+        let networth = 0; 
+        // this.state = "loading";
+        let size = Object.keys(this.coins).length
+        console.log(size)
+        if (size === 0) {
+            console.log("empty portfolio");
+            return;
+        }
+
+        for (const myCoin in this.coins) {
+            networth += this.coins[myCoin].value;
+        }
+
+
+        return networth.toFixed(2);
+      },
   },
   methods: {
     getCoin() {
@@ -158,7 +181,6 @@ export default {
             }
         })
    },
-    //New Code
     getOurCoinList() {
         if (location.href.split('#').length === 1) {
             return null;
