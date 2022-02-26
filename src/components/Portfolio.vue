@@ -7,14 +7,14 @@
         
         <div v-else>
             <div>
-                <div></div>
-                <input v-model="newCoin.name" placeholder="coin name">
-                <input v-model="newCoin.amount" type="text" placeholder="amount">
-                <input @click="updateCoin" type="button" value="Update Portfolio">
+                <h2>Total Portfolio Value: {{portfolio || 0}} </h2>
             </div>
 
             <div>
-                <h2>Total Portfolio Value: {{portfolio || 0}} </h2>
+                <div></div>
+                <input v-model="newCoin.name" placeholder="coin name">
+                <input v-model="newCoin.amount" type="text" placeholder="amount">
+                <input :class="isCoinNotfound()" @click="updateCoin" type="button" :value="sumbitText">
             </div>
 
             <div class="container">
@@ -60,6 +60,7 @@ export default {
   data: function() {
       return {
           coins: {},
+          coinNotfound: false, 
           //Changes Here
           ourCoinList: new Map(),
           state: "ready",
@@ -79,13 +80,18 @@ export default {
       this.getOurCoinList();
   },
   computed: {
+      sumbitText: function() {
+         if(this.coinNotfound) {
+             return 'Coin Not Found';
+         } else {
+             return 'Update Portfolio';
+         }
+      },
       portfolio: function() {
         let networth = 0; 
         // this.state = "loading";
         let size = Object.keys(this.coins).length
-        console.log(size)
         if (size === 0) {
-            console.log("empty portfolio");
             return;
         }
 
@@ -98,6 +104,11 @@ export default {
       },
   },
   methods: {
+    isCoinNotfound() {
+        if(this.coinNotfound) {
+          return 'coin-not-found';  
+        }
+    },
     getCoin() {
       if (location.href.split('#').length === 1) {
           return null;
@@ -155,12 +166,16 @@ export default {
     },
     updateCoin() {
         if (this.newCoin.name === null || this.newCoin.amount === null) {
-            console.log("empty updatecoin");
             return;
         }
 
         if (!this.ourCoinList.get(this.newCoin.name)) {
-            console.log("newCoin not present");
+
+            this.coinNotfound = true;
+            setTimeout(()=>{
+                this.coinNotfound = false;
+            },2000);
+
             return;
         }
 
@@ -211,5 +226,9 @@ export default {
 
 .margin-standard {
     margin-right: 20px;
+}
+.coin-not-found {
+    color: red;
+    background-color: transparent;
 }
 </style>
