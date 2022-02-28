@@ -104,6 +104,10 @@ export default {
           return this.loadingCoin;
       },
       portfolio: function() {
+        if(!this.coins){
+            return 0;
+        }
+        
         let networth = 0; 
 
         let size = Object.keys(this.coins).length
