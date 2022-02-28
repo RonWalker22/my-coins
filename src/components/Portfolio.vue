@@ -149,7 +149,9 @@ export default {
            if (response.data.errorMessage === "java.lang.NullPointerException") {
              return this.createUser();
             }
-            this.coins = response.data.coins
+            if (!response.data.coins) {
+                this.coins = response.data.coins
+            }
             this.loadingCoin = "";
             this.state = "ready"
         }
